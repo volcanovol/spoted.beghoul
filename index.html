@@ -1,41 +1,98 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>spoted begoul</title>
+    <title>Guess the Number Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        h1 {
+            margin-top: 50px;
+        }
+
+        p {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        input {
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        #attempts {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
 </head>
 <body>
-<h1>:حاب تسبوطي روح للانستا</h1>
-<a href="https://www.instagram.com/spotted__beghol.abderhman/">
-  <img src="https://www.instagram.com/static/images/ico/favicon-192.png/68d99ba29cc8.png" alt="Instagram logo"  width="50" height="50">
+    <h1>Guess the Number Game</h1>
+    <p>Try to guess the randomly generated number between 1 and 100.</p>
+    <input type="text" id="guessInput" placeholder="Enter your guess" pattern="[0-9]+" />
+    <button onclick="checkGuess()">Guess</button>
+    <p id="attempts">Remaining attempts: 3</p>
 
+    <script>
+        var attempts = 3;
+        var randomNumber;
 
+        function generateRandomNumber() {
+            return Math.floor(Math.random() * 100) + 1;
+        }
 
+        function checkGuess() {
+            var guessInput = document.getElementById('guessInput');
+            var guess = parseInt(guessInput.value);
+
+            if (isNaN(guess) || guess < 1 || guess > 100) {
+                alert("Please enter a valid number between 1 and 100.");
+                return;
+            }
+
+            if (!randomNumber) {
+                randomNumber = generateRandomNumber();
+            }
+
+            if (guess === randomNumber) {
+                alert("Congratulations! You guessed the correct number.");
+                resetGame();
+            } else if (guess < randomNumber) {
+                alert("Too low! Try a higher number.");
+            } else {
+                alert("Too high! Try a lower number.");
+            }
+
+            guessInput.value = '';
+            attempts--;
+
+            var attemptsText = document.getElementById('attempts');
+            attemptsText.innerHTML = "Remaining attempts: " + attempts;
+
+            if (attempts === 0) {
+                alert("Game over! You ran out of attempts. The correct number was " + randomNumber);
+                resetGame();
+            }
+        }
+
+        function resetGame() {
+            randomNumber = null;
+            attempts = 3;
+            var attemptsText = document.getElementById('attempts');
+            attemptsText.innerHTML = "Remaining attempts: " + attempts;
+        }
+    </script>
 </body>
-
-
-<style>
-body {
-			background-color: skyblue;
-			text-align: center;
-			font-family: Arial, sans-serif;
-		}
-		h1 {
-			color: #324960;
-			margin-top: 50px;
-		}
-		#score {
-			color: #324960;
-			font-size: 30px;
-		}
-		#box {
-			width: 100px;
-			height: 100px;
-			background-color: #324960;
-			border-radius: 50%;
-			position: absolute;
-			top: 50%;
-			left: 50%;
-			transform: translate(-50%, -50%);
-		}
-	</style>
-	</html>
+</html>
